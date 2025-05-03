@@ -1,0 +1,13 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+     
+      {
+        "Path": "Soccer.Server\\Soccer.Server.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      }
+    ]
+  }
+]

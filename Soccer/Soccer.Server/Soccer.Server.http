@@ -1,0 +1,161 @@
+﻿### REGISTER
+POST http://localhost:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "claudiu2803",
+  "password": "ionut2803",
+  "verifyPassword": "ionut2803"
+}
+
+### LOGIN
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "claudiu2803",
+  "password": "ionut2803"
+}
+###____________________________________________________________
+
+
+POST http://localhost:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "adminUser",
+  "password": "password123",
+  "verifyPassword": "password123"
+}
+
+
+### LOGIN - ca să obții token
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "adminUser",
+  "password": "password123"
+}
+
+### GET - Profilul utilizatorului logat
+GET http://localhost:5001/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xhdWRpdTI4MDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiVXNlciIsIkFkbWluIl0sImV4cCI6MTc0Mjc1ODgwNSwiaXNzIjoiU29jY2VyU2VydmVyIiwiYXVkIjoiY2xpZW50LWlzcyJ9.Kf8MRgqgtvvlLwdl6ZalfiFspAOhYGthkgxWHoPFWlM
+
+### PUT - Update profil (firstName, lastName, profileImage)
+PUT http://localhost:5001/api/users/update-profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJleHAiOjE3NDI0OTA4NzYsImlzcyI6IlNvY2NlclNlcnZlciIsImF1ZCI6ImNsaWVudC1pc3MifQ.dpIdsl7Zv_PPsxZJYlaSquSUxMS1QHGcBQYvk--QivU
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### GET - Roles pentru userul logat
+GET http://localhost:5001/api/users/roles
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNDkyMzE1LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.6ZW228nVpuzSjNCKQUcvPI7KKdwJmpS2jE9SKuHvvqc
+
+### PUT - Upload profile picture (URL simplu)
+PUT http://localhost:5001/api/users/upload-picture
+Authorization: Bearer {{JWT_TOKEN}}
+Content-Type: application/json
+
+"https://example.com/avatar-new.jpg"
+
+### PUT - Remove profile picture (set default)
+PUT http://localhost:5001/api/users/remove-picture
+Authorization: Bearer {{JWT_TOKEN}}
+
+
+### ADMIN - Get all users
+GET http://localhost:5001/api/users/all-users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNjM4MDc3LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.xJJ3IslTtrhP80PGonOghVTtqBtbCQ_E-5zFU1kOnRc
+
+### ADMIN - Add role la user cu ID = 10
+POST http://localhost:5001/api/users/6/add-role-to-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNDkyMzE1LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.6ZW228nVpuzSjNCKQUcvPI7KKdwJmpS2jE9SKuHvvqc
+Content-Type: application/json
+
+"Admin"
+
+### ADMIN - Remove role de la user cu ID = 3
+POST http://localhost:5001/api/users/1/remove-role-to-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNDkyMzE1LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.6ZW228nVpuzSjNCKQUcvPI7KKdwJmpS2jE9SKuHvvqc
+Content-Type: application/json
+
+"Admin"
+
+### ADMIN - Delete user cu ID = 3
+DELETE http://localhost:5001/api/users/8/delete-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNDkyMzE1LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.6ZW228nVpuzSjNCKQUcvPI7KKdwJmpS2jE9SKuHvvqc
+
+### ADMIN - Get user by username
+GET http://localhost:5001/api/users/users-by-id?id=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEwIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZSI6ImFkbWluVXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6WyJVc2VyIiwiQWRtaW4iXSwiZXhwIjoxNzQyNjMzMDg5LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.K5mqZLJf5-jz_pu8nVdgF4ZYyV-FYL7Wpawk82I1t4g
+
+
+###____________________________________________________________
+### GET - Rețetele utilizatorului logat
+GET http://localhost:5001/api/recipe/my-recipes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xhdWRpdTI4MDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiVXNlciIsIkFkbWluIl0sImV4cCI6MTc0NjI5Njk1MiwiaXNzIjoiU29jY2VyU2VydmVyIiwiYXVkIjoiY2xpZW50LWlzcyJ9.VUtfa15SqEhrMqmVdd3xa0mG8MryV3UhgCz2GZygsd4
+
+###
+
+### POST - Creează rețetă nouă pentru utilizatorul logat
+POST http://localhost:5001/api/recipe/my-recipes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xhdWRpdTI4MDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzQ2MzAyNzk1LCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.N1TuWrqO8F3w5lRlGQY5wCR6TNL2Z3zBmAgK-kxkPh8
+Content-Type: application/json
+
+{
+  "name": "Paste Carbonara",
+  "description": "O rețetă clasică italiană.",
+  "ingredients": ["Paste", "Ou", "Parmezan", "Piper", "Guanciale"],
+  "instructions": ["Fierbe pastele", "Bate ouăle cu brânza", "Adaugă guanciale", "Combină totul"]
+}
+
+###
+
+### GET - Toate rețetele din feed
+GET http://localhost:5001/api/recipe
+
+###
+
+### GET - Rețetă după ID
+GET http://localhost:5001/api/recipe/1
+
+###
+
+### GET - Căutare după nume
+GET http://localhost:5001/api/recipe/name/Paste%20Carbonara
+
+###
+
+### GET - Cele mai noi 5 rețete
+GET http://localhost:5001/api/recipe/latest?count=5
+
+###
+
+### GET - Căutare globală după keyword
+GET http://localhost:5001/api/recipe/search?keyword=paste
+
+###
+
+### PUT - Update rețetă (ID trebuie să coincidă cu cel din body)
+PUT http://localhost:5001/api/recipe/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xhdWRpdTI4MDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzQ2MzAxMDkzLCJpc3MiOiJTb2NjZXJTZXJ2ZXIiLCJhdWQiOiJjbGllbnQtaXNzIn0.a6jyS85t4iBsYWtkk2voSYALv06OXWmGkRbrZ1-kegA
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Paste Carbonara Revizuit",
+  "description": "Am adăugat smântână (nu autentică, dar bună).",
+  "ingredients": ["Paste", "Ou", "Parmezan", "Guanciale", "Smântână"],
+  "instructions": ["Fierbe pastele", "Amestecă ingredientele", "Servește cald"]
+}
+
+###
+
+### DELETE - Șterge rețetă după ID
+DELETE http://localhost:5001/api/recipe/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiY2xhdWRpdTI4MDMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiVXNlciIsIkFkbWluIl0sImV4cCI6MTc0NjI5OTE5MSwiaXNzIjoiU29jY2VyU2VydmVyIiwiYXVkIjoiY2xpZW50LWlzcyJ9.2O6dvRJRSURL34pOcN_ozm-zg0CoXMW_1FCHgBGM2qY

@@ -1,0 +1,125 @@
+{
+  "Version": 1,
+  "Hash": "2ZdMulSV/+8BUtCW5SWk9u5LyCKrZ84Eq+sog5XZtLY=",
+  "Source": "Soccer.Server",
+  "BasePath": "_content/Soccer.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Soccer.Server\\wwwroot",
+      "Source": "Soccer.Server",
+      "ContentRoot": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\",
+      "BasePath": "_content/Soccer.Server",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\Assert\\default-image.png",
+      "SourceId": "Soccer.Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\",
+      "BasePath": "_content/Soccer.Server",
+      "RelativePath": "Assert/default-image#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "u59ldmz3h0",
+      "Integrity": "olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Assert\\default-image.png"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "Assert/default-image.png",
+      "AssetFile": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\Assert\\default-image.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71864"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 08 Mar 2025 13:41:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s="
+        }
+      ]
+    },
+    {
+      "Route": "Assert/default-image.u59ldmz3h0.png",
+      "AssetFile": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\Assert\\default-image.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71864"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 08 Mar 2025 13:41:21 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u59ldmz3h0"
+        },
+        {
+          "Name": "label",
+          "Value": "Assert/default-image.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s="
+        }
+      ]
+    }
+  ]
+}

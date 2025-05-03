@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\wwwroot\\Assert\\default-image.png",
+      "PackagePath": "staticwebassets\\Assert\\default-image.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Soccer.Server.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Soccer.Server.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Soccer.Server.props",
+      "PackagePath": "build\\Soccer.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Soccer.Server.props",
+      "PackagePath": "buildMultiTargeting\\Soccer.Server.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Soccer.Server.props",
+      "PackagePath": "buildTransitive\\Soccer.Server.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

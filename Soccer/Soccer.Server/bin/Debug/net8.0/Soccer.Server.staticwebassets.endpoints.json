@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "ManifestType": "Build",
+  "Endpoints": [
+    {
+      "Route": "Assert/default-image.png",
+      "AssetFile": "Assert/default-image.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71864"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 08 Mar 2025 13:41:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s="
+        }
+      ]
+    },
+    {
+      "Route": "Assert/default-image.u59ldmz3h0.png",
+      "AssetFile": "Assert/default-image.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "71864"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 08 Mar 2025 13:41:21 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "u59ldmz3h0"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-olbRhrxepiwk9MFQA6r0Db8eL8/GKfUu9STpy7Bjg4s="
+        },
+        {
+          "Name": "label",
+          "Value": "Assert/default-image.png"
+        }
+      ]
+    }
+  ]
+}

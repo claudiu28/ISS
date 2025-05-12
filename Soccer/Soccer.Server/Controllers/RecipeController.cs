@@ -25,7 +25,7 @@ namespace Soccer.Server.Controllers
             return Ok(recipes);
         }
 
-        [HttpPost("my-recipes")]
+        [HttpPost("create-recipe")]
         [Authorize]
         public async Task<IActionResult> CreateMyRecipe([FromBody] RecipeCreateDto dto)
         {
@@ -38,8 +38,9 @@ namespace Soccer.Server.Controllers
                 Description = dto.Description,
                 Ingredients = dto.Ingredients,
                 Instructions = dto.Instructions,
+                UserId = user.Id,
                 CreatedAt = DateTime.UtcNow,
-                UserId = user.Id
+                
             };
 
 
@@ -52,14 +53,15 @@ namespace Soccer.Server.Controllers
                 Description = created.Description,
                 Ingredients = [.. created.Ingredients],
                 Instructions = [.. created.Instructions],
+                Username = created.User.Username,
                 CreatedAt = created.CreatedAt,
-                Username = created.User.Username 
             };
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        [HttpGet]
+        [HttpGet("all-recipe")]
+
         public async Task<IActionResult> GetAll()
         {
             var recipes = await _recipeService.GetAll();

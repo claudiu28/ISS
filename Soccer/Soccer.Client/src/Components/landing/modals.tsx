@@ -19,10 +19,9 @@ export const ModalsLogIn = ({ onClose }: ICloseModal) => {
                 );
             }
             onClose();
-
-
         }catch (error){
-            console.error(error);
+            console.error(error)
+            confirm("Invalid username or password");
         }
     }
     return (
@@ -113,6 +112,7 @@ export const ModalsSignUp = ({ onClose }: ICloseModal) => {
             setTimeout(() => document.getElementById("login-button")?.click(), 100);
         } catch (error) {
             console.error(error);
+            confirm("Invalid credentials! Registration failed.");
         }
     };
     return (

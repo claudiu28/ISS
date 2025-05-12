@@ -1,4 +1,6 @@
-﻿namespace Soccer.Server.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Soccer.Server.Models
 {
     public class User
     {
@@ -10,9 +12,14 @@
         public string PasswordHash { get; set; } = string.Empty;
         public ICollection<string> UserRoles { get; set; } = [];
         public DateTime CreateAt { get; set; }
-        public virtual ICollection<Teams> OwnedTeams { get; set; } = [];
-        public virtual ICollection<Competitions> UserCompetitionsCreated { get; set; } = [];
-        public virtual ICollection<Posts> UserPosts { get; set; } = [];
-        public virtual ICollection<Participant> UserParticipations { get; set; } = [];
+        
+        [JsonIgnore]
+        public List<Recipe> UserRecipes { get; set; } = [];
+        [JsonIgnore]
+        public List<Teams> OwnedTeams { get; set; } = [];
+        [JsonIgnore]
+        public List<Competitions> UserCompetitionsCreated { get; set; } = [];
+        [JsonIgnore]
+        public List<Participant> UserParticipations { get; set; } = [];
     }
 }

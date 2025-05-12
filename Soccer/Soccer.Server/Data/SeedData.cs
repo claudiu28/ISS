@@ -101,26 +101,6 @@ namespace Soccer.Server.Data
 
             modelBuilder.Entity<Competitions>().Property("creator_id").HasDefaultValue(1L);
 
-            modelBuilder.Entity<Posts>().HasData(
-                new
-                {
-                    Id = 1,
-                    Name = "Welcome to Soccer App",
-                    Description = "This is the first post on our platform!",
-                    CreatedAt = DateTime.Parse("2023-01-01"),
-                    PostType = "News",
-                },
-                new
-                {
-                    Id = 2,
-                    Name = "Champions League Draw",
-                    Description = "The draw for the Champions League 2023 has been completed",
-                    CreatedAt = DateTime.Parse("2023-08-31"),
-                    PostType = "Event",
-                }
-            );
-
-            modelBuilder.Entity<Posts>().Property("user_id").HasDefaultValue(1L);
 
             modelBuilder.Entity<Match>().HasData(
                 new

@@ -8,5 +8,7 @@
         Task Update(T entity);
         Task Delete(long id);
         Task SaveChangesAsync();
+        IQueryable<T> Query();
+
     }
 }

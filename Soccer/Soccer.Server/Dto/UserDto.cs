@@ -12,7 +12,6 @@ namespace Soccer.Server.Dto
         public DateTime CreateAt { get; set; }
         public virtual ICollection<Teams> OwnedTeams { get; set; } = [];
         public virtual ICollection<Competitions> UserCompetitionsCreated { get; set; } = [];
-        public virtual ICollection<Posts> UserPosts { get; set; } = [];
         public virtual ICollection<Participant> UserParticipations { get; set; } = [];
         public virtual ICollection<Recipe> UserRecipes { get; set; } = [];
     }

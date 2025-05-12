@@ -7,78 +7,56 @@ namespace Soccer.Server.Repositories
     public class RecipeRepository(AppContextDb context) : IRecipeRepository
     {
         private readonly AppContextDb _context = context;
+        private readonly DbSet<Recipe> _recipes = context.Recipes;
 
-        
-        public async Task<Recipe?> GetByIdAsync(long id)
+        public async Task<Recipe?> GetById(long id)
         {
-            return await _context.Recipes.FindAsync(id);
+            return await _recipes.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Recipe>> GetAllAsync()
+        public async Task<List<Recipe>> GetAll()
         {
-            return await _context.Recipes
-                .Include(r => r.User)
-                .OrderByDescending(r => r.CreatedAt)
-                .ToListAsync();
+            return await _recipes.Include(u => u.User).ToListAsync();
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipesByUserAsync(User user)
+        public async Task Create(Recipe entity)
         {
-            return await _context.Recipes
-                .Where(r => r.User.Id == user.Id)
-                .ToListAsync();
+            await _recipes.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipesByNameAsync(string name)
+        public async Task Update(Recipe entity)
         {
-            return await _context.Recipes.Where(r => r.Name == name)
-                .ToListAsync();
+            _recipes.Update(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Recipe>> GetRecipesByIngredientsAsync(string[] ingredients)
+        public async Task Delete(long id)
         {
-           
-            return await _context.Recipes
-                .Where(r => ingredients.All(i => r.Ingredients.Contains(i)))
-                .ToListAsync();
+            var recipe = await _recipes.FindAsync(id);
+            if (recipe == null)
+                throw new Exception($"Recipe with id {id} not found");
+
+            _recipes.Remove(recipe);
+            await _context.SaveChangesAsync();
         }
 
-      
-        public async Task<Recipe> AddAsync(Recipe entity)
+        public async Task SaveChangesAsync()
         {
-            await _context.Recipes.AddAsync(entity);
-            await _context.SaveChangesAsync(); 
-            return entity;
-        }
-
-        public async Task<Recipe?> UpdateAsync(Recipe entity)
-        {
-            var recipe = await _context.Recipes.FindAsync(entity.Id);
-            if (recipe == null) return null;
-
-            recipe.Name = entity.Name;
-            recipe.Description = entity.Description;
-            recipe.Ingredients = entity.Ingredients;
-            recipe.Instructions = entity.Instructions;
-
-            _context.Recipes.Update(recipe);
-            await _context.SaveChangesAsync(); 
-            return recipe;
-        }
-
-        public async Task<Recipe?> DeleteAsync(long id)
-        {
-            var recipe = await _context.Recipes.FindAsync(id);
-            if (recipe == null) return null;
-
-            _context.Recipes.Remove(recipe);
-            await _context.SaveChangesAsync(); 
-            return recipe;
+            await _context.SaveChangesAsync();
         }
 
         public IQueryable<Recipe> Query()
         {
-            return _context.Recipes.AsQueryable();
+            return _recipes.Include(u => u.User).AsQueryable();
+        }
+
+        public async Task<Recipe?> GetRecipeWithUser(long recipeId)
+        {
+            return await _recipes
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == recipeId);
         }
     }
 }
+

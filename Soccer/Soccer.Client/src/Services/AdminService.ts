@@ -8,7 +8,7 @@ class AdminService {
     }
 
     async addUserRole(id: number, role: string): Promise<AdminDto> {
-        const response = await api.post<AdminDto>(`/users/${id}/add-role/`, role, {
+        const response = await api.post<AdminDto>(`/users/${id}/add-role-to-user/`, JSON.stringify(role), {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -17,7 +17,7 @@ class AdminService {
     }
 
     async removeUserRole(id: number, role: string): Promise<AdminDto> {
-        const response = await api.post<AdminDto>(`/users/${id}/remove-role/`, role, {
+        const response = await api.post<AdminDto>(`/users/${id}/remove-role-to-user/`, JSON.stringify(role), {
             headers: {
                 'Content-Type': 'application/json'
             }

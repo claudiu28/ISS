@@ -15,7 +15,7 @@ export default function AdminPage() {
     const [searchType, setSearchType] = useState("username");
     const [searchQuery, setSearchQuery] = useState("");
     const { searchUserById, searchUserByUsername, searchByLastName, searchByFirstName } = useAdmin();
-    const [searchResult, setSearchResult] = useState<AdminDto[] | AdminDto | null>(null);
+    const [searchResult, setSearchResult] = useState<AdminDto[] | null>(null);
 
     const stats = {
         totalTeams: 42,
@@ -24,9 +24,17 @@ export default function AdminPage() {
     };
 
     useEffect(() => {
-        allUsers().then((users) => {
-            setUsers(users);
-        });
+        const loadUsers = async () => {
+            try {
+                const userList = await allUsers();
+                setUsers(userList);
+            } catch (error) {
+                console.error("Error loading users:", error);
+                alert("Failed to load users. Please refresh the page.");
+            }
+        };
+
+        loadUsers().then();
     }, [allUsers]);
 
     useEffect(() => {
@@ -40,27 +48,48 @@ export default function AdminPage() {
     }, []);
 
     const handleSearch = async () => {
-        if (!searchQuery.trim()) return;
+        if (!searchQuery.trim()) {
+            alert("Please enter a search term");
+            return;
+        }
 
-        if (searchType === "id") {
-            const user = await searchUserById(Number(searchQuery));
-            setSearchResult(user ? [user] : []);
-        }
-        if (searchType === "username") {
-            const user = await searchUserByUsername(searchQuery);
-            setSearchResult(user ? [user] : []);
-        }
-        if (searchType === "firstname") {
-            const users = await searchByFirstName(searchQuery);
-            setSearchResult(users);
-        }
-        if (searchType === "lastname") {
-            const users = await searchByLastName(searchQuery);
-            setSearchResult(users);
-        }
-    }
+        try {
+            let result: AdminDto[] = [];
 
-    const toggleDropdown = (id: number, type: string) => {
+            if (searchType === "id") {
+                const idNumber = Number(searchQuery);
+                if (isNaN(idNumber)) {
+                    alert("Please enter a valid numeric ID");
+                    return;
+                }
+                const user = await searchUserById(idNumber);
+                result = user ? [user] : [];
+            } else if (searchType === "username") {
+                const users = await searchUserByUsername(searchQuery);
+                result = Array.isArray(users) ? users : (users ? [users] : []);
+            } else if (searchType === "firstname") {
+                const users = await searchByFirstName(searchQuery);
+                result = Array.isArray(users) ? users : (users ? [users] : []);
+            } else if (searchType === "lastname") {
+                const users = await searchByLastName(searchQuery);
+                result = Array.isArray(users) ? users : (users ? [users] : []);
+            }
+
+            if (result.length === 0) {
+                alert(`No users found with ${searchType === "id" ? "ID" : searchType}: "${searchQuery}"`);
+            }
+
+            setSearchResult(result);
+
+        } catch (error) {
+            console.error("Search error:", error);
+            alert("An error occurred while searching. Please try again.");
+            setSearchResult([]);
+        }
+    };
+
+    const toggleDropdown = (id: number, type: string, event: React.MouseEvent) => {
+        event.stopPropagation();
         if (dropdownOpen.id === id && dropdownOpen.type === type) {
             setDropdownOpen({id: null, type: null});
         } else {
@@ -68,12 +97,59 @@ export default function AdminPage() {
         }
     };
 
-    let dataToDisplay: AdminDto[] = users;
+    const handleAddRole = async (userId: number, role: string) => {
+        try {
+            await addRole(userId, role);
+            const refreshedUsers = await allUsers();
+            setUsers(refreshedUsers);
 
-    if (searchQuery.trim() !== "" && searchResult && Array.isArray(searchResult) && searchResult.length > 0) {
+            if (searchResult) {
+                const updatedUser = refreshedUsers.find(u => u.id === userId);
+                if (updatedUser) {
+                    setSearchResult(searchResult.map(u => u.id === userId ? updatedUser : u));
+                }
+            }
+        } catch (error){
+            console.error("Add role error:", error);
+            alert("An error occurred while adding the role. Please try again.");
+        }
+    };
+
+    const handleRemoveRole = async (userId: number, role: string) => {
+        try {
+            await removeRole(userId, role);
+            const refreshedUsers = await allUsers();
+            setUsers(refreshedUsers);
+            alert(`${role} role removed successfully`);
+        } catch (error) {
+            console.error("Remove role error:", error);
+            alert("An error occurred while removing the role. Please try again.");
+        }
+    };
+
+    const handleDeleteUser = async (userId: number) => {
+        if (!confirm("Are you sure you want to delete this user?")) {
+            return;
+        }
+
+        try {
+            await deleteUser(userId);
+            const refreshedUsers = await allUsers();
+            setUsers(refreshedUsers);
+            if (searchResult) {
+                setSearchResult(searchResult.filter(u => u.id !== userId));
+            }
+            alert("User deleted successfully");
+        } catch (error) {
+            console.error("Delete user error:", error);
+            alert("An error occurred while deleting this user");
+        }
+    };
+
+    let dataToDisplay: AdminDto[] = users;
+    if (searchResult !== null && searchResult.length > 0) {
         dataToDisplay = searchResult;
     }
-
 
     return (
         <>
@@ -179,10 +255,19 @@ export default function AdminPage() {
                                                         value={searchQuery}
                                                         onChange={(e) => setSearchQuery(e.target.value)}
                                                     />
-                                                    <button className="bg-blue-600 text-white px-4 py-1 rounded" onClick={handleSearch}>
+                                                    <button className="bg-blue-600 text-white px-4 py-1 rounded"
+                                                            onClick={handleSearch}>
                                                         Search
                                                     </button>
-
+                                                    <button
+                                                        className="bg-gray-600 text-white px-4 py-1 rounded"
+                                                        onClick={() => {
+                                                            setSearchQuery("");
+                                                            setSearchResult(null);
+                                                        }}
+                                                    >
+                                                        Load All
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,10 +314,7 @@ export default function AdminPage() {
                                                         </td>
                                                         <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium relative">
                                                             <button
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    toggleDropdown(user.id, "user");
-                                                                }}
+                                                                onClick={(e) => toggleDropdown(user.id, "user", e)}
                                                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100"
                                                             >
                                                                 <MoreHorizontal className="h-4 w-4"/>
@@ -244,23 +326,19 @@ export default function AdminPage() {
                                                                     className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                                                                     <div className="py-1">
                                                                         <button
-                                                                            onClick={() => addRole(user.id, "Admin")}
+                                                                            onClick={() => handleAddRole(user.id, "Admin")}
                                                                             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                                         >
                                                                             Add Admin Role
                                                                         </button>
                                                                         <button
-                                                                            onClick={() => removeRole(user.id, "Admin")}
+                                                                            onClick={() => handleRemoveRole(user.id, "Admin")}
                                                                             className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                                         >
                                                                             Remove Admin Role
                                                                         </button>
                                                                         <button
-                                                                            onClick={async () => {
-                                                                                await deleteUser(user.id);
-                                                                                const refreshedUsers = await allUsers();
-                                                                                setUsers(refreshedUsers);
-                                                                            }}
+                                                                            onClick={() => handleDeleteUser(user.id)}
                                                                             className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                                                                         >
                                                                             Delete User

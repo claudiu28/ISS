@@ -36,6 +36,10 @@ namespace Soccer.Server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("competition_name");
 
+                    b.Property<long>("CreatorId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("creator_id");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text")
@@ -58,13 +62,9 @@ namespace Soccer.Server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("status");
 
-                    b.Property<long>("creator_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("creator_id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("creator_id");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("competitions", (string)null);
                 });
@@ -78,6 +78,14 @@ namespace Soccer.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("AwayTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("away_team_id");
+
+                    b.Property<long>("CompetitionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("competition_id");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("date");
@@ -86,6 +94,10 @@ namespace Soccer.Server.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("description");
+
+                    b.Property<long>("HomeTeamId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("home_team_id");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -97,25 +109,13 @@ namespace Soccer.Server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("result");
 
-                    b.Property<long>("away_team_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("away_team_id");
-
-                    b.Property<long>("competition_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("competition_id");
-
-                    b.Property<long>("home_team_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("home_team_id");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("away_team_id");
+                    b.HasIndex("AwayTeamId");
 
-                    b.HasIndex("competition_id");
+                    b.HasIndex("CompetitionId");
 
-                    b.HasIndex("home_team_id");
+                    b.HasIndex("HomeTeamId");
 
                     b.ToTable("matches", (string)null);
                 });
@@ -129,6 +129,10 @@ namespace Soccer.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("CompetitionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("competition_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -136,70 +140,23 @@ namespace Soccer.Server.Migrations
                         .HasDefaultValue("Pending")
                         .HasColumnName("status");
 
-                    b.Property<long>("competition_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("competition_id");
-
-                    b.Property<long>("members_id")
+                    b.Property<long>("TeamId")
                         .HasColumnType("bigint")
                         .HasColumnName("members_id");
 
-                    b.Property<long>("user_id")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("competition_id");
+                    b.HasIndex("CompetitionId");
 
-                    b.HasIndex("members_id");
+                    b.HasIndex("TeamId");
 
-                    b.HasIndex("user_id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("participants", (string)null);
-                });
-
-            modelBuilder.Entity("Soccer.Server.Models.Posts", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("create_at")
-                        .HasDefaultValueSql("LOCALTIMESTAMP");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("post_description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("post_title");
-
-                    b.Property<string>("PostType")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("News")
-                        .HasColumnName("post_type");
-
-                    b.Property<long>("user_id")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("user_id");
-
-                    b.ToTable("posts", (string)null);
                 });
 
             modelBuilder.Entity("Soccer.Server.Models.Recipe", b =>
@@ -276,19 +233,13 @@ namespace Soccer.Server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<DateTime>("UpdateAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("update_at")
-                        .HasDefaultValueSql("LOCALTIMESTAMP");
-
-                    b.Property<long>("owner_id")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint")
                         .HasColumnName("owner_id");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("owner_id");
+                    b.HasIndex("UserId");
 
                     b.ToTable("teams", (string)null);
                 });
@@ -345,26 +296,11 @@ namespace Soccer.Server.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("competitions_teams", b =>
-                {
-                    b.Property<long>("competition_id")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("team_id")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("competition_id", "team_id");
-
-                    b.HasIndex("team_id");
-
-                    b.ToTable("competitions_teams", (string)null);
-                });
-
             modelBuilder.Entity("Soccer.Server.Models.Competitions", b =>
                 {
                     b.HasOne("Soccer.Server.Models.User", "Creator")
                         .WithMany("UserCompetitionsCreated")
-                        .HasForeignKey("creator_id")
+                        .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -375,20 +311,20 @@ namespace Soccer.Server.Migrations
                 {
                     b.HasOne("Soccer.Server.Models.Teams", "AwayTeam")
                         .WithMany("AwayMatches")
-                        .HasForeignKey("away_team_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("AwayTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Soccer.Server.Models.Competitions", "Competition")
                         .WithMany("CompetitionsMetches")
-                        .HasForeignKey("competition_id")
+                        .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Soccer.Server.Models.Teams", "HomeTeam")
                         .WithMany("HomeMatches")
-                        .HasForeignKey("home_team_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("HomeTeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AwayTeam");
@@ -402,19 +338,19 @@ namespace Soccer.Server.Migrations
                 {
                     b.HasOne("Soccer.Server.Models.Competitions", "Competition")
                         .WithMany("CompetitionParticipants")
-                        .HasForeignKey("competition_id")
+                        .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Soccer.Server.Models.Teams", "Team")
-                        .WithMany("MembersInTeam")
-                        .HasForeignKey("members_id")
+                        .WithMany("Participants")
+                        .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Soccer.Server.Models.User", "User")
                         .WithMany("UserParticipations")
-                        .HasForeignKey("user_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -425,21 +361,10 @@ namespace Soccer.Server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Soccer.Server.Models.Posts", b =>
-                {
-                    b.HasOne("Soccer.Server.Models.User", "User")
-                        .WithMany("UserPosts")
-                        .HasForeignKey("user_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Soccer.Server.Models.Recipe", b =>
                 {
                     b.HasOne("Soccer.Server.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserRecipes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -451,26 +376,11 @@ namespace Soccer.Server.Migrations
                 {
                     b.HasOne("Soccer.Server.Models.User", "Owner")
                         .WithMany("OwnedTeams")
-                        .HasForeignKey("owner_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("competitions_teams", b =>
-                {
-                    b.HasOne("Soccer.Server.Models.Competitions", null)
-                        .WithMany()
-                        .HasForeignKey("competition_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Soccer.Server.Models.Teams", null)
-                        .WithMany()
-                        .HasForeignKey("team_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Soccer.Server.Models.Competitions", b =>
@@ -486,7 +396,7 @@ namespace Soccer.Server.Migrations
 
                     b.Navigation("HomeMatches");
 
-                    b.Navigation("MembersInTeam");
+                    b.Navigation("Participants");
                 });
 
             modelBuilder.Entity("Soccer.Server.Models.User", b =>
@@ -497,7 +407,7 @@ namespace Soccer.Server.Migrations
 
                     b.Navigation("UserParticipations");
 
-                    b.Navigation("UserPosts");
+                    b.Navigation("UserRecipes");
                 });
 #pragma warning restore 612, 618
         }

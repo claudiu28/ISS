@@ -47,10 +47,7 @@ namespace Soccer.Server.Services
             return await _userRepository.GetCompetitions(userId);
         }
 
-        public async Task<List<Posts>> GetPosts(long userId)
-        {
-            return await _userRepository.GetPosts(userId);
-        }
+
 
         public async Task<List<Recipe>> GetRecipes(long userId)
         {
@@ -79,7 +76,49 @@ namespace Soccer.Server.Services
         {
             await _userRepository.Update(entity);
         }
+        public async Task<User?> GetByIdWithAllNavigations(long id)
+        {
+            return await _userRepository.GetByIdWithAllNavigations(id);
+        }
 
+        public async Task AddRecipeToUser(long userId, Recipe recipe)
+        {
+            await _userRepository.AddRecipeToUser(userId, recipe);
+        }
 
+        public async Task AddTeamToUser(long userId, Teams team)
+        {
+            await _userRepository.AddTeamToUser(userId, team);
+        }
+
+        public async Task AddCompetitionToUser(long userId, Competitions competition)
+        {
+            await _userRepository.AddCompetitionToUser(userId, competition);
+        }
+
+        public async Task AddParticipationToUser(long userId, long teamId, long competitionId)
+        {
+            await _userRepository.AddParticipationToUser(userId, teamId, competitionId);
+        }
+
+        public async Task RemoveRecipeFromUser(long userId, long recipeId)
+        {
+            await _userRepository.RemoveRecipeFromUser(userId, recipeId);
+        }
+
+        public async Task RemoveTeamFromUser(long userId, long teamId)
+        {
+            await _userRepository.RemoveTeamFromUser(userId, teamId);
+        }
+
+        public async Task RemoveCompetitionFromUser(long userId, long competitionId)
+        {
+            await _userRepository.RemoveCompetitionFromUser(userId, competitionId);
+        }
+
+        public async Task RemoveParticipationFromUser(long userId, long participantId)
+        {
+            await _userRepository.RemoveParticipationFromUser(userId, participantId);
+        }
     }
 }

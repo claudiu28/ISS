@@ -9,18 +9,11 @@ namespace Soccer.Server.Data
     {
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Posts> Posts { get; set; }
-
         public DbSet<Participant> Participants { get; set; }
-
         public DbSet<Recipe> Recipes { get; set; }
-
         public DbSet<Competitions> Competitions { get; set; }
-
         public DbSet<Match> Matches { get; set; }
-
         public DbSet<Teams> Teams { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -45,39 +38,21 @@ namespace Soccer.Server.Data
                 entity.ToTable("users");
             });
 
-            modelBuilder.Entity<Posts>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-                entity.Property(e => e.Id).HasColumnName("id").ValueGeneratedOnAdd();
-                entity.Property(e => e.Name).IsRequired().HasColumnName("post_title");
-                entity.Property(e => e.Description).IsRequired().HasColumnName("post_description");
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("LOCALTIMESTAMP").HasColumnName("create_at").HasColumnType("timestamp without time zone"); ;
-                entity.HasOne(e => e.User).WithMany(e => e.UserPosts).HasForeignKey("user_id").OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("user_id").HasColumnName("user_id");
-                entity.Property(e => e.PostType).HasColumnName("post_type").IsRequired().HasDefaultValue("News");
-                entity.ToTable("posts");
-
-            });
-
             modelBuilder.Entity<Participant>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).HasColumnName("id").ValueGeneratedOnAdd();
 
-                entity.HasOne(e => e.User).WithMany(u => u.UserParticipations)
-                .HasForeignKey("user_id").OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("user_id").HasColumnName("user_id");
+                entity.HasOne(e => e.User).WithMany(u => u.UserParticipations).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(p => p.UserId).HasColumnName("user_id");
 
-                entity.HasOne(e => e.Competition).WithMany(c => c.CompetitionParticipants)
-                .HasForeignKey("competition_id").OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("competition_id").HasColumnName("competition_id");
+                entity.HasOne(e => e.Team).WithMany(t => t.Participants).HasForeignKey(m => m.TeamId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(m => m.TeamId).HasColumnName("members_id");
 
-                entity.HasOne(e => e.Team).WithMany(t => t.MembersInTeam)
-                .HasForeignKey("members_id").OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("members_id").HasColumnName("members_id");
+                entity.HasOne(e => e.Competition).WithMany(t => t.CompetitionParticipants).HasForeignKey(m => m.CompetitionId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(m => m.CompetitionId).HasColumnName("competition_id");
 
-                entity.Property(e => e.Status).IsRequired().HasDefaultValue("Pending")
-                .HasColumnName("status");
+                entity.Property(e => e.Status).IsRequired().HasDefaultValue("Pending").HasColumnName("status");
 
                 entity.ToTable("participants");
 
@@ -95,22 +70,8 @@ namespace Soccer.Server.Data
                 entity.Property(e => e.NumberOfTeams).HasColumnName("number_of_teams");
                 entity.Property(e => e.Status).HasColumnName("status");
 
-                entity.HasOne(e => e.Creator)
-                .WithMany(u => u.UserCompetitionsCreated).HasForeignKey("creator_id")
-                .OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("creator_id").HasColumnName("creator_id");
-
-                entity.HasMany(e => e.CompetitionTeams).WithMany(r => r.TeamCompetitions).UsingEntity(
-                    "competitions_teams",
-                    t => t.HasOne(typeof(Teams)).WithMany().HasForeignKey("team_id"),
-                    c => c.HasOne(typeof(Competitions)).WithMany().HasForeignKey("competition_id"),
-                    k =>
-                    {
-                        k.HasKey("competition_id", "team_id");
-                        k.Property<long>("team_id");
-                        k.Property<long>("competition_id");
-                        k.ToTable("competitions_teams");
-                    });
+                entity.HasOne(e => e.Creator).WithMany(u => u.UserCompetitionsCreated).HasForeignKey(c => c.CreatorId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(c => c.CreatorId).HasColumnName("creator_id");
 
                 entity.ToTable("competitions");
             }
@@ -125,10 +86,9 @@ namespace Soccer.Server.Data
                 entity.Property(e => e.Description).IsRequired().HasColumnName("description");
                 entity.Property(e => e.CreateAt).IsRequired().HasColumnName("create_at").HasDefaultValueSql("LOCALTIMESTAMP").HasColumnType("timestamp without time zone");
                 entity.Property(e => e.Logo).HasColumnName("logo");
-                entity.Property(e => e.UpdateAt).HasDefaultValueSql("LOCALTIMESTAMP").HasColumnName("update_at").HasColumnType("timestamp without time zone");
 
-                entity.HasOne(e => e.Owner).WithMany(u => u.OwnedTeams).HasForeignKey("owner_id").OnDelete(DeleteBehavior.Restrict);
-                entity.Property<long>("owner_id").HasColumnName("owner_id");
+                entity.HasOne(e => e.Owner).WithMany(u => u.OwnedTeams).HasForeignKey(t => t.UserId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(t => t.UserId).HasColumnName("owner_id");
 
                 entity.ToTable("teams");
 
@@ -144,18 +104,14 @@ namespace Soccer.Server.Data
                 entity.Property(e => e.Result).HasColumnName("result");
                 entity.Property(e => e.Description).HasColumnName("description");
 
-                entity.HasOne(e => e.HomeTeam).WithMany(t => t.HomeMatches).HasForeignKey("home_team_id")
-                      .OnDelete(DeleteBehavior.Restrict);
-                entity.Property<long>("home_team_id").HasColumnName("home_team_id");
+                entity.HasOne(e => e.HomeTeam).WithMany(t => t.HomeMatches).HasForeignKey(t => t.HomeTeamId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(t => t.HomeTeamId).HasColumnName("home_team_id");
 
-                entity.HasOne(e => e.AwayTeam).WithMany(t => t.AwayMatches).HasForeignKey("away_team_id")
-                      .OnDelete(DeleteBehavior.Restrict);
-                entity.Property<long>("away_team_id").HasColumnName("away_team_id");
+                entity.HasOne(e => e.AwayTeam).WithMany(t => t.AwayMatches).HasForeignKey(t => t.AwayTeamId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.AwayTeamId).HasColumnName("away_team_id");
 
-                entity.HasOne(e => e.Competition).WithMany(c => c.CompetitionsMetches)
-                      .HasForeignKey("competition_id")
-                      .OnDelete(DeleteBehavior.Cascade);
-                entity.Property<long>("competition_id").HasColumnName("competition_id");
+                entity.HasOne(e => e.Competition).WithMany(c => c.CompetitionsMetches).HasForeignKey(f => f.CompetitionId).OnDelete(DeleteBehavior.Cascade);
+                entity.Property(f => f.CompetitionId).HasColumnName("competition_id");
 
                 entity.ToTable("matches");
             });
@@ -175,7 +131,7 @@ namespace Soccer.Server.Data
                 entity.Property(e => e.UserId).HasColumnName("user_id"); 
 
                 entity.HasOne(r => r.User)
-                      .WithMany()
+                      .WithMany(r => r.UserRecipes)
                       .HasForeignKey(r => r.UserId)
                       .OnDelete(DeleteBehavior.Cascade);
 

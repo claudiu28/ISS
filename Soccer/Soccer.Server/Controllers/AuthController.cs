@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Soccer.Server.Dto;
 using Soccer.Server.Services;
+using Sprache;
 
 namespace Soccer.Server.Controllers
 {
@@ -14,15 +15,30 @@ namespace Soccer.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var user = await _authService.Register(registerDto);
-            return Ok(new { user.Id, user.Username, user.CreateAt });
+            try
+            {
+                var user = await _authService.Register(registerDto);
+                return Ok(new { user.Id, user.Username, user.CreateAt });
+            }
+            catch
+            {
+                return BadRequest(new { message = "An error occurred during registration" });
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var response = await _authService.Login(loginDto);
-            return Ok(response);
+            try
+            {
+                var response = await _authService.Login(loginDto);
+                return Ok(response);
+            }
+            catch
+            {            {
+                return BadRequest(new { message = "An error occurred during login" });
+            }
+        }
         }
     }
 }

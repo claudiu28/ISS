@@ -330,3 +330,4 @@ C:\Users\claud\OneDrive\Desktop\ISS PROIECT\Soccer\Soccer.Server\obj\Debug\net8.
 C:\Users\claud\OneDrive\Desktop\ISS PROIECT\Soccer\Soccer.Server\obj\Debug\net8.0\Soccer.Server.pdb
 C:\Users\claud\OneDrive\Desktop\ISS PROIECT\Soccer\Soccer.Server\obj\Debug\net8.0\Soccer.Server.genruntimeconfig.cache
 C:\Users\claud\OneDrive\Desktop\ISS PROIECT\Soccer\Soccer.Server\obj\Debug\net8.0\ref\Soccer.Server.dll
+C:\Users\claud\OneDrive\Desktop\ISS PROIECT\Soccer\Soccer.Server\obj\Debug\net8.0\Soccer.Server.sourcelink.json

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Wh/TmC8hq6I=",
+  "dgSpecHash": "Z/MTG0nQELM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS PROIECT\\Soccer\\Soccer.Server\\Soccer.Server.csproj",
+  "projectFilePath": "C:\\Users\\claud\\OneDrive\\Desktop\\ISS\\ISS PROIECT\\Soccer\\Soccer.Server\\Soccer.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\claud\\.nuget\\packages\\aspire.npgsql.entityframeworkcore.postgresql\\9.1.0\\aspire.npgsql.entityframeworkcore.postgresql.9.1.0.nupkg.sha512",
     "C:\\Users\\claud\\.nuget\\packages\\automapper\\14.0.0\\automapper.14.0.0.nupkg.sha512",
